@@ -48,6 +48,14 @@ Algoritmo Ejercicio1_caicedoLuisMiguel
 	Dimension precio[100]
 	Dimension cantstok[100]
 	Dimension id[100]
+	
+	//almacenador de compras del usuario
+	Dimension marcaus[100]
+	Dimension modelous[100]
+	Dimension precious[100]
+	Dimension cantstokus[100]
+	Dimension idus[100]
+	//productos que hay
 	marca[0]="motorola"
 	modelo[0]="moto g9"
 	precio[0]=500000
@@ -64,11 +72,10 @@ Algoritmo Ejercicio1_caicedoLuisMiguel
 				
 				Limpiar Pantalla
 				para i<-0 Hasta 99 Hacer
-					si cantstok[i]>0 Entonces
+					si cantstok[i]>0 Entonces//si la cantidad de stok es mayor a 0 se escriben los detalles de los productos 
 						Escribir "marca= " marca[i] "       modelo= " modelo[i] "   precio= " precio[i]
 						Escribir "cantidad disponible= " cantstok[i] "   ID= " id[i]
 						Escribir "============================================================"
-						c<-c+1
 					FinSi
 				FinPara
 				
@@ -86,16 +93,21 @@ Algoritmo Ejercicio1_caicedoLuisMiguel
 				
 			2:	
 				Limpiar Pantalla
+				para i<-0 Hasta 99 Hacer
+					si cantstok[i]>0 Entonces
+						c<-c+1//es un contador para saber donde debe continuar en el segundo punto
+					FinSi
+				FinPara
 				Escribir "que celular quieres agregar"
-				para i<-c Hasta c+1 Hacer
-					si cantstok[i]=0 Entonces
+				para i<-c Hasta c Hacer
+					si cantstok[i]=0 Entonces//si la cantidad de estok es = a 0 eso significa que no hay celulares y se podra agregar uno nuevo
 						Escribir "marca"
 						Leer marca[i]
 						Escribir "modelo"
 						Leer modelo[i]
 						Escribir "precio"
 						Leer precio[i]
-						Escribir "cantstok"
+						Escribir "cantidad que estará disponible"
 						Leer cantstok[i]
 						Escribir "ID"
 						Leer id[i]
@@ -118,7 +130,7 @@ Algoritmo Ejercicio1_caicedoLuisMiguel
 			3:
 				Limpiar Pantalla
 				para i<-0 Hasta 99 Hacer
-					si cantstok[i]>0 Entonces
+					si cantstok[i]>0 Entonces//lista los celulares para saber a cuales les puede actualizar la cantidad de stok
 						Escribir "marca= " marca[i] "      modelo= " modelo[i] "   precio= " precio[i]
 						Escribir "cantidad disponible= " cantstok[i] "   ID= " id[i]
 						Escribir "============================================================"
@@ -127,10 +139,10 @@ Algoritmo Ejercicio1_caicedoLuisMiguel
 				
 				Escribir "A que celular le quieres actualizar la cantidad disponible"
 				Escribir "escribe el modelo del celular"
-				Leer cant
+				Leer modeloo
 				para i<-0 Hasta 99 Hacer
-					si cant=modelo[i] Entonces
-						Escribir "cual es la nueva cantidad disponible"
+					si modeloo=modelo[i] Entonces//si lavariable modelo0 es = a modelo en la posición i entonces  
+						Escribir "cual es la nueva cantidad disponible"//pedira que sobrescriva la cantidad que esta en esa misma posición
 						Leer cantstok[i]
 					FinSi
 				FinPara
@@ -159,21 +171,71 @@ Algoritmo Ejercicio1_caicedoLuisMiguel
 				FinPara
 				
 				
-				Escribir "escribe el modelo del celular que deseas comprar
+				Escribir "escribe el modelo del celular que deseas comprar"
 				Leer model
 				
-				Repetir
-					
-				Hasta Que 
 				para i<-0 Hasta 99 Hacer
 					si model=modelo[i] Entonces
-						Escribir "que cantidad deseas comprar"
-						leer cancom
-						si cancom>cantstok[i] Entonces
-							Escribir "no tenemos esta cantidad"
+						Repetir
+							Escribir "que cantidad deseas comprar"
+							leer cancom
+							si cancom<1 o cancom>cantstok[i] Entonces
+								Escribir "ingresa una cantidad valida"
+							Finsi
+						Hasta Que cancom>0 y cancom<=cantstok[i]
+						si cancom<=cantstok[i] y cancom>0 Entonces//si cancom se encuentra dentro de los parametros se asignan los detalles a nuevas variables
+							Escribir "compra realizada con exito"
+							cantstok[i]<-cantstok[i]-cancom//se le resta la cantidad que el usuario compró para mantener el inventario actualizado
+							marcaus[i]<-marca[i]//
+							modelous[i]<-modelo[i]//se asignan los detalles a nuevas variables
+							precious[i]<-precio[i]//
+							cantstokus[i]<-cancom//se le asigna la cantidad que compró
+							idus[i]<-id[i]
 						FinSi
-					FinSi
+					finsi	
 				finpara
+				
+				
+				Escribir "quieres volver al menú principal? si o no?"
+				Leer siono
+				si siono="si" Entonces
+					Limpiar Pantalla
+					menu
+					Leer n
+				SiNo
+					si siono="no" Entonces
+						ver=Falso
+					FinSi
+				FinSi
+				
+			5:
+				Limpiar Pantalla
+				para i<-0 Hasta 99 Hacer
+					si cantstokus[i]>0 Entonces //si la cantidad que compro el usuario es mayor a 0 se escriben los detalles de los productos
+						Escribir "has comprado estos celulares"
+						Escribir "marca= " marcaus[i] "     modelo= " modelous[i] "     id= " idus[i]
+						precious[i]<-precious[i]*cantstokus[i]//se multiplica la cantidad comprada por el precio para saber el total
+						Escribir "cantidad comprada= " cantstokus[i] "       por un total de= " precious[i] "$"
+						Escribir "========================================================================================="
+					FinSi
+				FinPara
+				
+				Escribir "quieres volver al menú principal? si o no?"
+				Leer siono
+				si siono="si" Entonces
+					Limpiar Pantalla
+					menu
+					Leer n
+				SiNo
+					si siono="no" Entonces
+						ver=Falso
+					FinSi
+				FinSi
+				
+			6:
+				Escribir "programa finalizado"
+				ver=Falso
+				
 		FinSegun
 	FinMientras
 
